@@ -8,7 +8,7 @@ export const categoryService = {
       .select('*')
       .eq('user_id', userId)
       .order('name');
-    if (error) { console.error(error); return []; }
+    if (error) return [];
     return data ?? [];
   },
 
@@ -18,12 +18,11 @@ export const categoryService = {
       .insert({ ...payload, user_id: userId })
       .select()
       .maybeSingle();
-    if (error) { console.error(error); return null; }
+    if (error) return null;
     return data;
   },
 
   async remove(id: string): Promise<void> {
-    const { error } = await supabase.from('categories').delete().eq('id', id);
-    if (error) console.error(error);
+    await supabase.from('categories').delete().eq('id', id);
   },
 };

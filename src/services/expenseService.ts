@@ -8,7 +8,7 @@ export const expenseService = {
       .select('*')
       .eq('user_id', userId)
       .order('date', { ascending: false });
-    if (error) { console.error(error); return []; }
+    if (error) return [];
     return data ?? [];
   },
 
@@ -18,7 +18,7 @@ export const expenseService = {
       .insert({ ...payload, user_id: userId })
       .select()
       .maybeSingle();
-    if (error) { console.error(error); return null; }
+    if (error) return null;
     return data;
   },
 
@@ -29,12 +29,11 @@ export const expenseService = {
       .eq('id', id)
       .select()
       .maybeSingle();
-    if (error) { console.error(error); return null; }
+    if (error) return null;
     return data;
   },
 
   async remove(id: string): Promise<void> {
-    const { error } = await supabase.from('expenses').delete().eq('id', id);
-    if (error) console.error(error);
+    await supabase.from('expenses').delete().eq('id', id);
   },
 };
